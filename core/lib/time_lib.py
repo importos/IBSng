@@ -5,7 +5,13 @@ from core.lib.jalali import *
 import time,re
 
 def dbTimeFromEpoch(epoch_time):
-    return time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(epoch_time))
+    try:
+        return time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(epoch_time))
+    except:
+        logException(LOG_ERROR,"Args epoch_time : "+str([epoch_time]))
+        return "1900-01-01 00:00:00"
+
+
 
 #############################33
 def cur_day_of_week():
