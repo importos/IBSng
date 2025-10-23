@@ -1,5 +1,6 @@
 from core.user import user_main
 from core.lib.date import *
+from core.ibs_exceptions import *
 import time
 
 def init():
@@ -25,7 +26,9 @@ def calcNearestExpDate(_id,_type,raw_attrs,parsed_attrs,date_type):
             
     elif group_obj.hasAttr("abs_exp_date"):
         nearest_exp_date = min(nearest_exp_date , long(group_obj.getAttr("abs_exp_date")) )
-
+    if nearest_exp_date > defs.MAXLONG:
+        nearest_exp_date = defs.MAXLONG
+        toLog("error for nearest_exp_date user id %s"%_id,LOG_ERROR)
     if nearest_exp_date != defs.MAXLONG:
         parsed_attrs["nearest_exp_date"]=AbsDateFromEpoch(nearest_exp_date).getDate(date_type)
         parsed_attrs["nearest_exp_date_epoch"]=nearest_exp_date
